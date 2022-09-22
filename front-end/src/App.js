@@ -17,7 +17,6 @@ function App() {
   }, []);
   return (
 
-Howdy
 <AppContext.Provider value={passContext}>
 <ul>
         {movieArray.map((movie) => (
