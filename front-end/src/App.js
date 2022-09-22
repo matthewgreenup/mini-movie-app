@@ -1,32 +1,50 @@
-import './App.css';
-import React, { useEffect, useState, createContext, useContext } from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css'
+import React, { useEffect, useState, createContext, useContext } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import {Home} from './Components/Home'
+import {MoviePage} from './Components/MoviePage'
 
-function App() {
-  const AppContext = React.createContext();
-  let [movieArray, setMovieArray] = useState([]);
-  const passContext = {movieArray, setMovieArray};
+export const AppContext = React.createContext();
+
+function App () {
+  const [searchText, setSearchText] = useState('')
+  const [movieArray, setMovieArray] = useState([])
+  const passContext = { movieArray, setMovieArray, searchText, setSearchText }
+  
+  //simple fetch
+  // useEffect(() => {
+  //   const url = 'http://localhost:8080/'
+  //   fetch(url)
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       console.log('data from all movie fetch: ', data)
+  //       setMovieArray(data)
+  //     })
+  // }, [])
+
   useEffect(() => {
-    const url = "http://localhost:8080/";
+    const url = `http://localhost:8080/search/${searchText}`
     fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("data from all movie fetch: ", data);
+      .then(res => res.json())
+      .then(data => {
+        console.log('data from all movie fetch: ', data)
         setMovieArray(data)
-      });
-  }, []);
+      })
+  }, [searchText])
+
   return (
+    <AppContext.Provider value={passContext}>
+      <Router>
+        <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/movie' element={<MoviePage/>}/>
 
-<AppContext.Provider value={passContext}>
-<ul>
-        {movieArray.map((movie) => (
-          <li key={movie.id}>{movie.title}</li>
-        ))}
-      </ul>
+        </Routes>
 
-</AppContext.Provider>
 
-  );
+      </Router>
+    </AppContext.Provider>
+  )
 }
 
-export default App;
+export default App
