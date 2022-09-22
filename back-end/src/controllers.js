@@ -12,4 +12,8 @@ const searchMovieByName = searchText => {
       .select('*')
 }
 
-module.exports = { getAllMovies, searchMovieByName }
+const deleteMovieById = id => {
+return knex('movie').where("id", id).del();
+}
+
+module.exports = { getAllMovies, searchMovieByName, deleteMovieById }

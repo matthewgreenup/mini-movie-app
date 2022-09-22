@@ -9,7 +9,8 @@ export const AppContext = React.createContext();
 function App () {
   const [searchText, setSearchText] = useState('')
   const [movieArray, setMovieArray] = useState([])
-  const passContext = { movieArray, setMovieArray, searchText, setSearchText }
+  const [currMovie, setCurrMovie] = useState({})
+  const passContext = { movieArray, setMovieArray, searchText, setSearchText, currMovie, setCurrMovie }
   
   //simple fetch
   // useEffect(() => {
@@ -37,7 +38,7 @@ function App () {
       <Router>
         <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/movie' element={<MoviePage/>}/>
+        <Route path='/movie/:id' element={<MoviePage/>}/>
 
         </Routes>
 
